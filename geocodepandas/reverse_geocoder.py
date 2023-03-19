@@ -15,7 +15,5 @@ class ReverseGeocoder:
 
         # get the address components
         address = data['display_name']
-        city = data['address']['city']
-        state = data['address']['state']
 
-        return {'address': address, 'city': city, 'state': state}
+        return {'address': address}

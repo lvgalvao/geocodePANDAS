@@ -3,12 +3,31 @@ from read_csv import CSVReader
 
 reader = CSVReader('assets/stores.csv')
 df = reader.read_csv()
-print(df.head())
+df_filtered = df.where(df['country'] == 'CO').dropna().head()
 
-# set the latitude and longitude values
-lat = 37.7749
-lon = -122.4194
+# create empty lists to store the address components
+addresses = []
 
-geocoder = ReverseGeocoder(lat, lon)
-address_components = geocoder.get_address()
-print(address_components)
+for index, row in df_filtered.iterrows():
+    # get the latitude and longitude values from the DataFrame
+    lat = row['latitude']
+    lon = row['longitude']
+
+    geocoder = ReverseGeocoder(lat, lon)
+
+    # get the address components using the ReverseGeocoder class
+    address_components = geocoder.get_address()
+    address = address_components['address']
+
+    # append the address components to the lists
+    addresses.append(address)
+
+# assign the address components lists to new columns in the DataFrame
+df_filtered['address'] = addresses
+
+# print the updated DataFrame
+
+loader = CSVReader.save_csv('output/updated_stores.csv', df_filtered, 'output/updated_stores.csv')
+
+
+print(df_filtered)
