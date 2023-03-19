@@ -1,7 +1,7 @@
 from reverse_geocoder import ReverseGeocoder
 from read_csv import CSVReader
 
-reader = CSVReader('assets/stores.csv')
+reader = CSVReader('input/stores.csv')
 df = reader.read_csv()
 df_filtered = df.where(df['country'] == 'CO').dropna()
 
