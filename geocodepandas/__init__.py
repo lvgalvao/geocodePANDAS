@@ -3,7 +3,7 @@ from read_csv import CSVReader
 
 reader = CSVReader('assets/stores.csv')
 df = reader.read_csv()
-df_filtered = df.where(df['country'] == 'CO').dropna().head()
+df_filtered = df.where(df['country'] == 'CO').dropna()
 
 # create empty lists to store the address components
 addresses = []
@@ -27,7 +27,7 @@ df_filtered['address'] = addresses
 
 # print the updated DataFrame
 
-loader = CSVReader.save_csv('output/updated_stores.csv', df_filtered, 'output/updated_stores.csv')
+loader = CSVReader.save_csv('output/updated_stores_co.csv', df_filtered, 'output/updated_stores_co.csv')
 
 
 print(df_filtered)
