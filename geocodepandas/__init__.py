@@ -3,13 +3,15 @@ from read_csv import CSVReader
 
 reader = CSVReader('input/stores.csv')
 df = reader.read_csv()
-df_filtered = df.where(df['country'] == 'CO').dropna()
+df_filtered = df.where(df['country'] == 'CL').dropna()
+print(df_filtered.count())
 
 # create empty lists to store the address components
 addresses = []
 
 for index, row in df_filtered.iterrows():
     # get the latitude and longitude values from the DataFrame
+    print(index)
     lat = row['latitude']
     lon = row['longitude']
 
@@ -27,7 +29,7 @@ df_filtered['address'] = addresses
 
 # print the updated DataFrame
 
-loader = CSVReader.save_csv('output/updated_stores_co.csv', df_filtered, 'output/updated_stores_co.csv')
+loader = CSVReader.save_csv('output/updated_stores_cl.csv', df_filtered, 'output/updated_stores_cl.csv')
 
 
 print(df_filtered)
