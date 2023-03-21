@@ -17,6 +17,8 @@ class ReverseGeocoder:
         display_name = data['features'][0]['properties']['display_name']
         category = data['features'][0]['properties']['category']
         type = data['features'][0]['properties']['type']
+        osm_id = data['features'][0]['properties']['osm_id']
+        osm_type = data['features'][0]['properties']['osm_type']
         road = data['features'][0]['properties']['address'].get('road')
         house_number = data['features'][0]['properties']['address'].get('house_number')
         suburb = data['features'][0]['properties']['address'].get('suburb')
@@ -24,4 +26,4 @@ class ReverseGeocoder:
         state = data['features'][0]['properties']['address'].get('state')
         postcode = data['features'][0]['properties']['address'].get('postcode')
 
-        return {'category': category, 'type': type, 'display_name': display_name, 'road': road, 'house_number': house_number, 'suburb': suburb, 'city': city, 'state': state, 'postcode': postcode}
+        return {'category': category, 'type': type, 'display_name': display_name, 'osm_type': osm_type, 'osm_id': osm_id, 'road': road, 'house_number': house_number, 'suburb': suburb, 'city': city, 'state': state, 'postcode': postcode}
