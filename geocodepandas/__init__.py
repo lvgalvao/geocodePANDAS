@@ -1,17 +1,21 @@
 from reverse_geocoder import ReverseGeocoder
 from read_csv import CSVReader
 import requests
+import pandas as pd
 
 reader = CSVReader('input/stores.csv')
 df = reader.read_csv()
-df_filtered = df.where(df['country'] == 'MX').dropna()
-print(df_filtered.count())
+df_filtered = df[df["country"] == "BR"].head()
+print(df_filtered)
 
 column_names = ['display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id']
 
 for index, row in df_filtered.iterrows():
     # get the latitude and longitude values from the DataFrame
     print(index)
+    if not pd.isnull(row['display_name']):
+        continue
+    
     lat = row['latitude']
     lon = row['longitude']
 
@@ -30,6 +34,6 @@ for index, row in df_filtered.iterrows():
     for column_name in column_names:
         df_filtered.at[index, column_name] = address_components.get(column_name)
 
-loader = CSVReader.save_csv('output/updated_stores_mx.csv', df_filtered, 'output/updated_stores_mx.csv')
+loader = CSVReader.save_csv('output/update_stores_br.csv', df_filtered, 'output/update_stores_br.csv')
 
 
