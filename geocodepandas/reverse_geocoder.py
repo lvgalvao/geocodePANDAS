@@ -6,24 +6,44 @@ class ReverseGeocoder:
         self.lon = lon
         self.url = f'https://nominatim.openstreetmap.org/reverse?format=geojson&lat={lat}&lon={lon}'
 
-    def get_address(self):
-        # send a GET request to the API endpoint
+    def _send_request(self):
         response = requests.get(self.url)
+        return response.json()
 
-        # get the JSON data from the API response
-        data = response.json()
+    def _parse_address(self, data):
+        if 'features' in data and len(data['features']) > 0:
+            properties = data['features'][0]['properties']
+            address = properties['address']
+            result = {
+                'category': properties.get('category'),
+                'type': properties.get('type'),
+                'display_name': properties.get('display_name'),
+                'osm_type': properties.get('osm_type'),
+                'osm_id': properties.get('osm_id'),
+                'road': address.get('road'),
+                'house_number': address.get('house_number'),
+                'suburb': address.get('suburb'),
+                'city': address.get('city'),
+                'state': address.get('state'),
+                'postcode': address.get('postcode')
+            }
+        else:
+            result = {
+                'category': None,
+                'type': None,
+                'display_name': None,
+                'osm_type': None,
+                'osm_id': None,
+                'road': None,
+                'house_number': None,
+                'suburb': None,
+                'city': None,
+                'state': None,
+                'postcode': None
+            }
+        return result
 
-        # get the address components
-        display_name = data['features'][0]['properties']['display_name']
-        category = data['features'][0]['properties']['category']
-        type = data['features'][0]['properties']['type']
-        osm_id = data['features'][0]['properties']['osm_id']
-        osm_type = data['features'][0]['properties']['osm_type']
-        road = data['features'][0]['properties']['address'].get('road')
-        house_number = data['features'][0]['properties']['address'].get('house_number')
-        suburb = data['features'][0]['properties']['address'].get('suburb')
-        city = data['features'][0]['properties']['address'].get('city')
-        state = data['features'][0]['properties']['address'].get('state')
-        postcode = data['features'][0]['properties']['address'].get('postcode')
-
-        return {'category': category, 'type': type, 'display_name': display_name, 'osm_type': osm_type, 'osm_id': osm_id, 'road': road, 'house_number': house_number, 'suburb': suburb, 'city': city, 'state': state, 'postcode': postcode}
+    def get_address(self):
+        data = self._send_request()
+        address = self._parse_address(data)
+        return address
