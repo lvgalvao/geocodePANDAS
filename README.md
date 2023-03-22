@@ -1,16 +1,12 @@
-# GeocodePandas
+# Geocode Stores
 
-GeocodePandas is a Python library that allows you to easily geocode and reverse geocode addresses using latitude and longitude coordinates in pandas DataFrames. It simplifies the process of adding address information to your data by providing simple-to-use classes.
+Geocode Stores is a Python script that reads a CSV file containing store information, including latitude and longitude coordinates, and retrieves additional address information using the Nominatim OpenStreetMap API. The enriched store data is then saved to an output CSV file.
 
-## Features
-
-- Read CSV files containing latitude and longitude coordinates
-- Geocode and reverse geocode addresses using a custom `ReverseGeocoder` class
-- Add address information to pandas DataFrames
-- Save updated DataFrames to new CSV files
-- Easily testable with pytest
-
-## Installation
+## Requirements and Installation
+- Python 3.6 or later
+- Poetry library
+- Pandas library
+- Requests library
 
 This project uses [Poetry](https://python-poetry.org/) for dependency management. To install the project, first install Poetry:
 
@@ -32,29 +28,34 @@ poetry install
 ```
 
 ## Usage
-To use GeocodePandas, first import the necessary classes:
+
+First, make sure your input CSV file contains at least the following columns:
+
+- id_store
+- latitude
+- longitude
+- country
+  
+Then, call the process_stores function in your script with the input and output file paths, and an optional country filter:
 
 ```python
-from geocodepandas import GeocodeDataFrame
-from geocodepandas import CSVReader
+from geocode_stores import process_stores
+
+input_file = 'input/stores.csv'
+output_file = 'output/update_stores_br.csv'
+country_filter = 'BR'
+
+process_stores(input_file, output_file, country_filter)
+
 ```
 
-Read a CSV file with latitude and longitude coordinates using the CSVReader class:
+The script will process the input file, filtering by the specified country if provided, and retrieve address information using the Nominatim API for stores with missing display_name values. The resulting data will be saved to the specified output file.
 
-```python
-reader = CSVReader('assets/stores.csv')
-df = reader.read_csv()
-```
 
-Create a GeocodeDataFrame instance and geocode the DataFrame:
+## Modules
 
-```python
-geocode_df = GeocodeDataFrame(df)
-result_df = geocode_df.geocode()
-```
+The project consists of the following modules:
 
-Save the updated DataFrame to a new CSV file:
-
-```python
-reader.save_csv(result_df, 'updated_stores.csv')
-```
+- `reverse_geocoder.py`: Contains the `ReverseGeocoder` class, which is responsible for sending requests to the Nominatim API and parsing the response.
+- `read_csv.py`: Contains the `CSVReader` class, which is responsible for reading the input CSV file, adding missing address columns, and saving the processed data to an output file.
+- `geocode_stores.py`: Contains the main functionality of the script, using the `ReverseGeocoder` and `CSVReader` classes to retrieve address information and process the store data.
