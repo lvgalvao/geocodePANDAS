@@ -8,7 +8,7 @@ class CSVReader:
     def _read_csv(self):
         # Read the CSV file into a pandas DataFrame
         try:
-            df = pd.read_csv(self.file_path, usecols=['id_store', 'latitude', 'longitude', 'country'])
+            df = pd.read_csv(self.file_path, usecols=['storeid', 'lat', 'lon', 'country','display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id'])
         except FileNotFoundError:
             print(f"File not found: {self.file_path}")
             return None

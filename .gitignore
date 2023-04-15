@@ -12,6 +12,8 @@ input
 # C extensions
 *.so
 
+tests
+
 # Distribution / packaging
 .Python
 build/

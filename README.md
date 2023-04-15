@@ -41,9 +41,7 @@ Then, call the process_stores function in your script with the input and output 
 ```python
 from geocode_stores import process_stores
 
-input_file = 'input/stores.csv'
-output_file = 'output/update_stores_br.csv'
-country_filter = 'BR'
+file = 'file/example.csv'
 
 process_stores(input_file, output_file, country_filter)
 

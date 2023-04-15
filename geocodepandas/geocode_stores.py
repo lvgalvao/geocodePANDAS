@@ -3,26 +3,25 @@ import requests
 from reverse_geocoder import ReverseGeocoder
 from read_csv import CSVReader
 
-def process_stores(input_file, output_file, country_filter=None):
-    reader = CSVReader(input_file)
-    df = reader.process_csv()
+def process_stores(file):
+    reader = CSVReader(file)
+    df_filtered = reader.process_csv()
 
-    if country_filter:
-        df_filtered = df[df["country"] == country_filter]
-    else:
-        df_filtered = df
-
-    df_filtered = df_filtered[df_filtered['latitude'].notnull()]
+    df_filtered = df_filtered[df_filtered['lat'].notnull()]
+    print(df_filtered)
 
     column_names = ['display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id']
 
-    for index, row in df_filtered.iterrows():
+    # Encontrar o índice da primeira linha com 'display_name' nulo
+    start_index = df_filtered.iloc[:, 0].isnull().idxmin()
+
+    for index in range(start_index, len(df_filtered)):
         print(index)
-        if not pd.isnull(row['display_name']):
+        if not pd.isnull(df_filtered.at[index, 'display_name']):
             continue
 
-        lat = row['latitude']
-        lon = row['longitude']
+        lat = df_filtered.at[index, 'lat']
+        lon = df_filtered.at[index, 'lon']
 
         geocoder = ReverseGeocoder(lat, lon)
 
@@ -38,4 +37,4 @@ def process_stores(input_file, output_file, country_filter=None):
         for column_name in column_names:
             df_filtered.at[index, column_name] = address_components.get(column_name)
 
-    reader.save_csv(df_filtered, output_file)
+    reader.save_csv(df_filtered, file)
