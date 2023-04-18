@@ -6,11 +6,22 @@ from read_csv import CSVReader
 def process_stores(file):
     reader = CSVReader(file)
     df_filtered = reader.process_csv()
-
     df_filtered = df_filtered[df_filtered['lat'].notnull()]
-    print(df_filtered)
 
-    column_names = ['display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id']
+    column_names = [
+        "display_name",
+        "road",
+        "house_number",
+        "city",
+        "state",
+        "suburb",
+        "postcode",
+        "category",
+        "type",
+        "osm_type",
+        "osm_id",
+    ]
+
 
     # Encontrar o índice da primeira linha com 'display_name' nulo
     start_index = df_filtered.iloc[:, 0].isnull().idxmin()

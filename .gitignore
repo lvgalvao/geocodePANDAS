@@ -8,11 +8,9 @@ __pycache__/
 *$py.class
 output
 input
-
+files
 # C extensions
 *.so
-
-tests
 
 # Distribution / packaging
 .Python
