@@ -48,4 +48,8 @@ def process_stores(file):
         for column_name in column_names:
             df_filtered.at[index, column_name] = address_components.get(column_name)
 
-    reader.save_csv(df_filtered, file)
+    try:
+        reader.save_csv(df_filtered, file)
+        print(df_filtered)
+    except Exception as e:
+        print(f"Error saving CSV file: {e}")
