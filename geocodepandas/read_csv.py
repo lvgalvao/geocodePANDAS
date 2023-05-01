@@ -30,6 +30,9 @@ class CSVReader:
         return df
 
     def save_csv(self, df, output_file_path):
+        """
+        Save the DataFrame to a CSV file
+        """
         if df is not None:
             # Save the DataFrame to a CSV file
             df.to_csv(output_file_path, index=False)
