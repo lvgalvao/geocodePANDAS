@@ -1,5 +1,6 @@
 import requests
 
+
 class ReverseGeocoder:
     def __init__(self, lat, lon):
         self.lat = lat
@@ -25,7 +26,7 @@ class ReverseGeocoder:
                 'suburb': address.get('suburb'),
                 'city': address.get('city'),
                 'state': address.get('state'),
-                'postcode': address.get('postcode')
+                'postcode': address.get('postcode'),
             }
         else:
             result = {
@@ -39,7 +40,7 @@ class ReverseGeocoder:
                 'suburb': None,
                 'city': None,
                 'state': None,
-                'postcode': None
+                'postcode': None,
             }
         return result
 

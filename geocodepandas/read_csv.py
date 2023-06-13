@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 class CSVReader:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -8,9 +9,28 @@ class CSVReader:
     def _read_csv(self):
         # Read the CSV file into a pandas DataFrame
         try:
-            df = pd.read_csv(self.file_path, usecols=['storeid', 'lat', 'lon', 'country','display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id'])
+            df = pd.read_csv(
+                self.file_path,
+                usecols=[
+                    'storeid',
+                    'lat',
+                    'lon',
+                    'country',
+                    'display_name',
+                    'road',
+                    'house_number',
+                    'city',
+                    'state',
+                    'suburb',
+                    'postcode',
+                    'category',
+                    'type',
+                    'osm_type',
+                    'osm_id',
+                ],
+            )
         except FileNotFoundError:
-            print(f"File not found: {self.file_path}")
+            print(f'File not found: {self.file_path}')
             return None
         return df
 
@@ -25,7 +45,19 @@ class CSVReader:
     def process_csv(self):
         df = self._read_csv()
         if df is not None:
-            columns = ['display_name', 'road', 'house_number', 'city', 'state', 'suburb', 'postcode', 'category', 'type', 'osm_type', 'osm_id']
+            columns = [
+                'display_name',
+                'road',
+                'house_number',
+                'city',
+                'state',
+                'suburb',
+                'postcode',
+                'category',
+                'type',
+                'osm_type',
+                'osm_id',
+            ]
             df = self._add_missing_columns(df, columns)
         return df
 
@@ -37,4 +69,4 @@ class CSVReader:
             # Save the DataFrame to a CSV file
             df.to_csv(output_file_path, index=False)
         else:
-            print("No DataFrame to save")
+            print('No DataFrame to save')
